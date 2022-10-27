@@ -13,14 +13,13 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <div class="card-body">
-
                             <form @submit.prevent="submit" enctype="multipart/form-data">
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-3">Product Name</label>
                                     <div class="col-md-9">
                                         <input type="text" id="name" v-model="form.name" name="name" class="form-control" placeholder="Enter Name">
                                         <div v-for="error in errors.name">
-                                            <span class="text-danger">{{ error}}</span>
+                                            <span class="text-danger">{{ error }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -29,7 +28,7 @@
                                     <div class="col-md-9">
                                         <input type="text" id="price" v-model="form.price" name="price" class="form-control" placeholder="Enter Price">
                                         <div v-for="error in errors.price">
-                                            <span class="text-danger">{{ error}}</span>
+                                            <span class="text-danger">{{ error }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -65,9 +64,10 @@
 <script>
     export default {
         name: "product.create",
+
         data(){
             return {
-                form: {
+                form:{
                     name: null,
                     price: null,
                     image: null,
@@ -88,12 +88,11 @@
             },
             create(){
                 const config = {
-                    headers: {
+                    headers:{
                         'content-type' : 'multipart/form-data'
                     }
                 }
                 axios.post('/api/product',this.form,config).then(res=>{
-
                     this.success = res.data.message;
                     this.$notify({
                         title: 'SUCCESS',

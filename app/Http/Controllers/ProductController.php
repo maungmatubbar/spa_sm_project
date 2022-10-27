@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProudctResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends Controller
 {
+    private $products;
+    private $product;
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +18,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $this->products = Product::latest()->get();
+        return ProudctResource::collection($this->products);
     }
 
     /**
@@ -68,27 +72,30 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
-        //
+        $this->product = Product::find($id);
+        return response()->json([
+            'status' => true,
+            'data' => $this->product
+        ],Response::HTTP_ACCEPTED);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+
+        $request->validate([
+            'name'       =>'required',
+            'price'      =>'required',
+            'description'=>'required',
+        ]);
+        Product::updateProduct($request,$id);
+        return response()->json([
+            'status' => true,
+            'message' => 'Product update successfully'
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -99,6 +106,10 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::deleteProduct($id);
+        return response()->json([
+            'status' => true,
+            'message'  => 'Product deleted successfully.'
+        ],Response::HTTP_ACCEPTED);
     }
 }

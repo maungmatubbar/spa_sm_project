@@ -36,7 +36,6 @@
 
 <script>
     import Form from 'vform'
-    import router from "../../Routes/router";
     export default {
         name: "category.edit",
         data()
@@ -77,7 +76,6 @@
             },
             getCategory() {
                 let id = this.$route.params.id//should return id of URL param
-
                 axios.get(`/api/category/${id}/edit`).then(res=>{
                      this.categoryForm.name = res.data.data.name;
                 })

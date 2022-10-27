@@ -26,6 +26,10 @@
                                 <td>{{ product.name }}</td>
                                 <td>{{ product.slug }}</td>
                                 <td>
+                                    <img :src="baseUrl+'/'+product.image" alt="">
+                                </td>
+                                <td>{{ product.price }}</td>
+                                <td>
                                     <span  class="btn-group">
                                          <router-link :to="{ name:'product.edit',params:{ id: product.id } }" class="btn btn-primary">edit</router-link>
                                           <button  @click="destory(product.id,index)" class="btn btn-danger">delete</button>
@@ -47,17 +51,20 @@
         data(){
             return {
                 products: [],
-                success:null
+                success:null,
+                baseUrl:null
             }
         },
         methods: {
-            loadCategories: function () {
-                axios.get('api/product').then(res=>{
-                    this.categories = res.data.data;
-                })
-            },
-            destory:function (id,index) {
-                this.categories.splice(index,1);
+           loadProducts(){
+               axios.get('/api/product')
+                   .then(res=>{
+                   this.products = res.data.data;
+                   this.baseUrl = window.location.origin;
+               }).catch(error=>{ error.response.data.errors});
+           },
+            destory(id,index){
+               this.products.splice(index,1)
                 axios.delete(`/api/product/${id}`).then(res=>{
                     this.success = res.data.message;
                     this.$swal.fire(
@@ -69,16 +76,19 @@
                             timer: 1500
                         }
                     );
-                });
-
+                }).catch(error=>{console.log(error.response.data.errors)})
             }
         },
         mounted() {
-            this.loadCategories();
+            this.loadProducts();
         }
+
     }
 </script>
 
 <style scoped>
-
+img {
+    width: 70px;
+    height: 50px;
+}
 </style>
