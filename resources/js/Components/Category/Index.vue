@@ -19,7 +19,7 @@
                                 </thead>
                                 <tbody>
                                     <p style="display: none">{{ i=1 }}</p>
-                                    <tr v-for="(category,index) in categories" :key="category.id">
+                                    <tr v-for="(category,index) in categories.data" :key="category.id">
                                         <td>{{ i ++ }}</td>
                                         <td>{{ category.name }}</td>
                                         <td>{{ category.slug }}</td>
@@ -32,6 +32,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <Pagination :data="categories" @pagination-change-page="loadCategories" />
                         </div>
                     </div>
                 </div>
@@ -40,8 +41,12 @@
 </template>
 
 <script>
+    import LaravelVuePagination from 'laravel-vue-pagination';
     export default {
         name: "'category.index",
+        components: {
+            'Pagination': LaravelVuePagination
+        },
         data(){
             return {
                 fullPage:false,
@@ -50,7 +55,7 @@
             }
         },
         methods: {
-            loadCategories: function () {
+            loadCategories: function (page=1) {
                 let loader = this.$loading.show({
                     // Optional parameters
                     container: this.fullPage ? null : this.$refs.formContainer,
@@ -58,7 +63,7 @@
                     color: '#d35400'
 
                 });
-                axios.get('api/category').then(res=>{
+                axios.get('/api/category?page='+page).then(res=>{
                     this.categories = res.data.data;
                 });
                 setTimeout(() => {
@@ -89,5 +94,7 @@
 </script>
 
 <style scoped>
-
+    .page-link .sr-only {
+        display: none;
+    }
 </style>

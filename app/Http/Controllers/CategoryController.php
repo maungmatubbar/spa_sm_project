@@ -14,7 +14,7 @@ class CategoryController extends Controller
     private $categories;
     public function index()
     {
-        $this->categories = Category::latest()->get();
+        $this->categories = Category::latest()->paginate(5);
         return response()->json([
             'status'    => true,
             'data'      => $this->categories
