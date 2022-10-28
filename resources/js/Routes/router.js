@@ -8,6 +8,7 @@ import EditCategory from "../Components/Category/Edit.vue"
 import ProductList from "../Components/Product/index.vue";
 import CreateProduct from "../Components/Product/create.vue"
 import EditProduct from "../Components/Product/edit.vue"
+import Login from '../Components/User/login.vue'
 const routes = [
 
     {
@@ -49,6 +50,12 @@ const routes = [
         path: '/product/edit/:id',
         component : EditProduct,
         name : 'product.edit',
+    },
+    //user login
+    {
+        path: '/login',
+        component: Login,
+        name: 'login'
     }
 
 ];

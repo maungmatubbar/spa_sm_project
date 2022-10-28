@@ -79,7 +79,18 @@
         },
         methods:{
             submit(){
+                let loader = this.$loading.show({
+                    // Optional parameters
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    canCancel: true,
+                    loader: 'bars',
+                    color: '#d35400',
+                    onCancel: this.onCancel,
+                });
                 this.create();
+                setTimeout(() => {
+                    loader.hide()
+                }, 5000);
             },
             onChange(e){
                 const file = e.target.files[0];

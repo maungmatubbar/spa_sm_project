@@ -57,11 +57,21 @@
         },
         methods: {
            loadProducts(){
+               let loader = this.$loading.show({
+                   // Optional parameters
+                   container: this.fullPage ? null : this.$refs.formContainer,
+                   loader: 'dots',
+                   color: '#d35400'
+
+               });
                axios.get('/api/product')
                    .then(res=>{
                    this.products = res.data.data;
                    this.baseUrl = window.location.origin;
                }).catch(error=>{ error.response.data.errors});
+               setTimeout(() => {
+                   loader.hide()
+               }, 2000);
            },
             destory(id,index){
                this.products.splice(index,1)

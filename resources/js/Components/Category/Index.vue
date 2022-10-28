@@ -44,15 +44,26 @@
         name: "'category.index",
         data(){
             return {
+                fullPage:false,
                 categories: [],
                 success:null
             }
         },
         methods: {
             loadCategories: function () {
+                let loader = this.$loading.show({
+                    // Optional parameters
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    loader: 'dots',
+                    color: '#d35400'
+
+                });
                 axios.get('api/category').then(res=>{
                     this.categories = res.data.data;
-                })
+                });
+                setTimeout(() => {
+                    loader.hide()
+                }, 2000);
             },
             destory:function (id,index) {
                 this.categories.splice(index,1);

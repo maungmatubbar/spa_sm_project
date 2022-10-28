@@ -13,8 +13,8 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <div class="card-body">
-
-                            <form @submit.prevent="submit" enctype="multipart/form-data">
+                            <form @submit.prevent="submit" enctype="multipart/form-data"  class="vld-parent"
+                                  ref="formContainer">
                                 <div class="row mb-3">
                                     <label for="name" class="col-md-3">Product Name</label>
                                     <div class="col-md-9">
@@ -70,6 +70,7 @@
         name: "product.edit",
         data(){
             return {
+                fullPage: false,
                 form:{
                     name: null,
                     price: null,
@@ -103,7 +104,18 @@
             },
             submit()
             {
+                let loader = this.$loading.show({
+                    // Optional parameters
+                    container: this.fullPage ? null : this.$refs.formContainer,
+                    canCancel: true,
+                    loader: 'bars',
+                    color: '#d35400',
+                    onCancel: this.onCancel,
+                });
                 this.update();
+                setTimeout(() => {
+                    loader.hide()
+                }, 5000);
             },
             update()
             {
