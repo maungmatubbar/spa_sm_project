@@ -9,6 +9,7 @@ import ProductList from "../Components/Product/index.vue";
 import CreateProduct from "../Components/Product/create.vue"
 import EditProduct from "../Components/Product/edit.vue"
 import Login from '../Components/User/login.vue'
+import Dashboard from '../Components/Dashboard/dashboard.vue'
 const routes = [
 
     {
@@ -24,38 +25,67 @@ const routes = [
     {
         path: '/category',
         component : Category,
-        name : 'category.index'
+        name : 'category.index',
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/category/create',
         component : CreateCategory,
-        name : 'category.create'
+        name : 'category.create',
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/category/edit/:id',
         component : EditCategory,
         name : 'category.edit',
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/products',
         component : ProductList,
-        name : 'product.index'
+        name : 'product.index',
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/product/create',
         component : CreateProduct,
-        name : 'product.create'
+        name : 'product.create',
+        meta:{
+            requiresAuth:true
+        }
     },
     {
         path: '/product/edit/:id',
         component : EditProduct,
         name : 'product.edit',
+        meta:{
+            requiresAuth:true
+        }
     },
     //user login
     {
         path: '/login',
         component: Login,
-        name: 'login'
+        name: 'login',
+        meta:{
+            requiresAuth:false
+        }
+    },
+    {
+        path: '/dashboard',
+        component: Dashboard,
+        name: 'dashboard',
+        meta:{
+            requiresAuth:true
+        }
     }
 
 ];
@@ -66,6 +96,15 @@ let router = createRouter({
     linkExactActiveClass: 'active',
     routes,
 });
-
+router.beforeEach((to,from)=>{
+   if(to.meta.requiresAuth && !localStorage.getItem('token'))
+   {
+        return { name: 'login' };
+   }
+   if(to.meta.requiresAuth == false && localStorage.getItem('token'))
+   {
+       return { name: 'dashboard' };
+   }
+});
 export default router;
 

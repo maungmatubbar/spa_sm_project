@@ -13,7 +13,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <div class="card-body">
-
                             <form @submit.prevent="submit">
                                 <div class="row">
                                     <label for="name" class="col-md-3">Category Name</label>

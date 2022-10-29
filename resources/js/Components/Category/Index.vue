@@ -71,7 +71,7 @@
                 }, 2000);
             },
             destory:function (id,index) {
-                this.categories.splice(index,1);
+                this.categories.data.splice(index,1);
                 axios.delete(`/api/category/${id}`).then(res=>{
                     this.success = res.data.message;
                     this.$swal.fire(
@@ -94,7 +94,7 @@
 </script>
 
 <style scoped>
-    .page-link .sr-only {
+    .page-link span.sr-only {
         display: none;
     }
 </style>

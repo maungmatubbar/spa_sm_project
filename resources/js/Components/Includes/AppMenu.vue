@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-lg-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-lg-top shadow">
         <div class="container px-5">
             <router-link to="/" class="navbar-brand">LOGO</router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -9,7 +9,8 @@
                     <li class="nav-item"><router-link to="/about" class="nav-link">About</router-link></li>
                     <li class="nav-item"><router-link to="/category" class="nav-link">Category</router-link></li>
                     <li class="nav-item"><router-link to="/products" class="nav-link">Products</router-link></li>
-                    <li class="nav-item"><router-link to="/login" class="nav-link">Login</router-link></li>
+                    <li class="nav-item" v-if="user==null"><router-link to="/login" class="nav-link">Login</router-link></li>
+                    <li class="nav-item"><router-link to="/dashboard" class="nav-link">{{ getUser() }}</router-link></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
@@ -26,6 +27,23 @@
 <script>
     export default {
         name: "AppMenu",
+        data(){
+            return {
+                token: null,
+                user: null
+            }
+        },
+        methods: {
+            getUser()
+            {
+                if(localStorage.getItem('user'))
+                {
+                    this.user = localStorage.getItem('user');
+                }
+                return this.user;
+            }
+        },
+
 
     }
 </script>
